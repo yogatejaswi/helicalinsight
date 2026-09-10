@@ -240,7 +240,13 @@ public class DataSourceUtils {
 	public static String testNosqlDS(JsonObject formDataJson) {
         String subType = NoSqlDataSourceProperties.getSubType(formDataJson);
         NoSQLLoader noSqlImplementation = NoSqlUtils.getNoSqlImplementation(subType);
-        return connectionTestResultBuilder(noSqlImplementation.testConnection(formDataJson));
+	boolean connectionSuccessful = noSqlImplementation.testConnection(formDataJson);
+	JsonObject result = new JsonObject();
+	if (connectionSuccessful && "com.helicalinsight.nosql.mongo".equalsIgnoreCase(subType)) {
+	    result.addProperty("message", "MongoDB connection successful");
+	    return result.toString();
+	}
+	return connectionTestResultBuilder(connectionSuccessful);
     }
 	/**
 	 * connectionTestResultBuilder(boolean isConnectionSuccessful)

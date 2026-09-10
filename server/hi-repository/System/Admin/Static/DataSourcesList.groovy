@@ -14,19 +14,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 def staticDataSources = '''[ {
-"name": "Mongodb",
+"name": "MongoDB",
 "classifier": "global",
 "categoryName": "No SQL & Big Data",
 "categoryType": "nosql_bigdata",
 "type": "global.jdbc",
 "driver": "com.helicalinsight.nosql.mongo",
-"url": "mongodb://{{hostName}}:{{port}}/{{database}}",
+"url": "mongodb+srv://cluster0.klkvy3f.mongodb.net/Helical-IT-Solutions?appName=Cluster0",
 "parameters": {
-"port": "27017",
-"hostName": "localhost",
-"database": "database",
-"collection":"collection",
-"sslPort":"3345"
+
+"hostName": "cluster0.klkvy3f.mongodb.net",
+"database": "Helical-IT-Solutions",
+"collection":"helicalinsight"
+
 },
 
 "dataSourceProvider": "noSql"
@@ -105,13 +105,18 @@ def resultJSON = [:]
 resultJSON."driversList" = []
 if ((jsonOfDrillDatasources != null) && drillEnabledTypes) {
     resultJSON."driversList" += jsonOfDrillDatasources.optJSONArray("drillDatasources")
-    resultJSON.driversList += ["driver": "com.helicalinsight.nosql.mongo", "available": "true", "url": "mongodb://{{hostName}}:{{port}}/{{database}}", "parameters": [
-            "port"      : "27017",
-            "hostName"  : "localhost",
-            "database"  : "database",
-            "collection": "collection",
-            "sslPort"   : "3345"
-    ]];
+}
+
+resultJSON.driversList += [
+    "driver": "com.helicalinsight.nosql.mongo",
+    "available": "true",
+    "url": "mongodb+srv://cluster0.klkvy3f.mongodb.net/Helical-IT-Solutions?appName=Cluster0",
+    "parameters": [
+        "hostName": "cluster0.klkvy3f.mongodb.net",
+        "database": "Helical-IT-Solutions",
+        "collection": "helicalinsight"
+    ]
+]
 
     staticArray+=staticMongoArray;
 }
